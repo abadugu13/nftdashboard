@@ -2,8 +2,23 @@
     <title>Complete NFT Dashboard</title>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!---load d3 -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    
+    {% load static %}
+    <script src="{% static 'js/sentimentChart.js'%}"></script>
+    {% load static %}
+    <script src="{% static 'js/priceVolumeChart.js'%}"></script>
+    {% load static %}
+    <script src="{% static 'js/featureChart.js'%}"></script>
+    {% load static %}
+    <script src="{% static 'js/wordCloudChart.js'%}"></script>
+    {% load static %}
+    <script src="{% static 'js/graphChart.js'%}"></script>
     {% load static%}
     <script src="{% static 'js/viz.js'%}"></script>
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'css/main.css'%}">
 
 </head>
 <body>
@@ -12,9 +27,14 @@
 <div align=center id="CollectionDropDown">
     <form method="post" action="">
     <select id="nftCollection" onchange="getNftCollection()", style="max-width:50%;">
+        <option value="">Select NFT Collection</option>
         {% for collection in collections %}
         <option value="{{collection.id}}">{{collection.name}}</option>
         {% endfor %}
     </select>
     </form>
 </div>
+<div id="components"></div>
+<div id="tooltip"></div>
+<body>
+
