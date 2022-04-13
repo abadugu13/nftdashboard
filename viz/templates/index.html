@@ -1,0 +1,19 @@
+<head>
+    <title>Complete NFT Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    {% load static%}
+    <script src="{% static 'js/viz.js'%}"></script>
+
+</head>
+<body>
+<h1 align=center>{{title}}</h1>
+<!--Dropdown to select NFT Collection-->
+<div align=center id="CollectionDropDown">
+    <form method="post" action="">
+    <select id="nftCollection" onchange="getNftCollection()", style="max-width:50%;">
+        {% for collection in collections %}
+        <option value="{{collection.id}}">{{collection.name}}</option>
+        {% endfor %}
+    </select>
+    </form>
+</div>
