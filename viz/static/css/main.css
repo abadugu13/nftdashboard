@@ -1,0 +1,31 @@
+path.domain {
+    stroke: ghostwhite;
+}
+
+path.line {
+    stroke: #BB86FC;
+    fill: none;
+    stroke-width: 2px;
+}
+
+g.x.axis.text {
+    color: ghostwhite;
+}
+
+.overlay {
+    fill: none;
+    pointer-events: all;
+}
+
+.tooltip-date{
+    font-size: 12px;
+    color: #000;
+}
+.tooltip-price{
+    font-size: 12px;
+    color: #000;
+}
+
+.tooltip{
+    stroke: #1F1A24;
+}
