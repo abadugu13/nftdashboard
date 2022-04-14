@@ -26,6 +26,19 @@ g.x.axis.text {
     color: #000;
 }
 
+.tooltip-text{
+    font-size: 12px;
+    color: #000;
+}
+
 .tooltip{
     stroke: #1F1A24;
+    border-radius: 25px;
+}
+
+.componentTitle{
+    font-size: 24px;
+    color:#fff;
+    font-weight: bold;
+    text-anchor: middle;
 }
