@@ -19,13 +19,11 @@ buildPriceVolumeChart = function(data) {
         dateFormatter = d3.timeFormat("%m/%d/%y");
 
     data = data.map(function(d) {
-        console.log(d);
         return {
             date: parseDate(d.date),
             price: d.price,
             volume: d.volume
         }})
-    console.log(data);
     // line chart with date on x axis and price on y axis
     var x = d3.scaleTime()
         .range([0, width]);
@@ -69,11 +67,8 @@ buildPriceVolumeChart = function(data) {
     svg.append("text")  
         .attr("x", (width / 2))
         .attr("y", 20 - (margin.top / 2))
-        .attr("text-anchor", "middle")
-        .style("font-size", "24px")
-        .style("text-decoration", "underline")
-        .attr("id", "priceVolumeChartTitle")
-        .text("Price Volume Chart");
+        .attr("class", "componentTitle")
+        .text("Price and Volume Chart");
 
     svg.append("text")
         .attr("x", (width / 2))
@@ -134,7 +129,6 @@ buildPriceVolumeChart = function(data) {
                 d0 = data[i - 1],
                 d1 = data[i],
                 d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-        console.log(d);
         focus.attr("transform", "translate(" + x(d.date) + "," + y(d.price) + ")");
         focus.select(".tooltip-date").text(dateFormatter(d.date));
         focus.select(".tooltip-price").text("Price:" + formatValue(d.price));
