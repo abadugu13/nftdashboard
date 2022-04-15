@@ -19,3 +19,7 @@ pip install -r requirements.txt
 python manage.py runserver
 ```
 Navigate to http://127.0.0.1:8000/viz/ to check the vizualization
+
+# Current State
+
+![Alt text](images/screenshot.jpeg?raw=true "Title")
