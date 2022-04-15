@@ -51,6 +51,8 @@ rect.tooltip {
 
 path.volume{
 fill: none;
-stroke: #0b8eab;
-stroke-width: 1px;
+stroke: #4169e1;
+stroke-width: 4px;
 }
+
+path.volume {}
