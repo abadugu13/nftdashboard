@@ -32,8 +32,14 @@ g.x.axis.text {
 }
 
 .tooltip{
-    stroke: #1F1A24;
+    /* stroke: #1F1A24; */
     border-radius: 25px;
+}
+
+rect.tooltip {
+    fill: #03DAC5;
+    rx: 4;
+    ry: 4;
 }
 
 .componentTitle{
