@@ -30,7 +30,13 @@ def get_all_data(request, value):
             {"feature": "feature5", "value": 0.57},
         ],
         "graph_data":{},
-        "sentiment_data":{},
+        "sentiment_data":[
+            {"sentiment":-0.2, "date":"2019-01-01", "volume":150},
+            {"sentiment":-0.1, "date":"2019-01-02", "volume":210},
+            {"sentiment":0.19, "date":"2019-01-03", "volume":200},
+            {"sentiment":-0.9, "date":"2019-01-04", "volume":800},
+            {"sentiment":0.90, "date":"2019-01-05", "volume":300},
+        ],
         "word_cloud_data":{},
     }
     return JsonResponse(data)
