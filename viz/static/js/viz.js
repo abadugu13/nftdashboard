@@ -20,6 +20,7 @@ getNftCollection = function() {
             buildPriceVolumeChart(data.price_data);
             buildFeatureChart(data.feature_data);
             buildSentimentChart(data.sentiment_data);
+            buildAnomalyChart(data.anomaly_data);
             buildGraph(data.graph_data);
             buildWordCloud(data.word_cloud_data);
         } else {
