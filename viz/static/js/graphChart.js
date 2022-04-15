@@ -86,7 +86,7 @@ buildSentimentChart = function(data) {
 
     lg.append("stop")
     .attr("offset", "0%")
-    .style("stop-color", "#fa5457")//start in red
+    .style("stop-color", "red")//start in red
     .style("stop-opacity", 1)
 
     lg.append("stop")
