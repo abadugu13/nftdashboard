@@ -19,8 +19,8 @@ getNftCollection = function() {
             // update the chart
             buildPriceVolumeChart(data.price_data);
             buildFeatureChart(data.feature_data);
-            buildGraph(data.graph_data);
             buildSentimentChart(data.sentiment_data);
+            buildGraph(data.graph_data);
             buildWordCloud(data.word_cloud_data);
         } else {
             // We reached our target server, but it returned an error
