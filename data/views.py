@@ -38,5 +38,14 @@ def get_all_data(request, value):
             {"sentiment":0.90, "date":"2019-01-05", "volume":300},
         ],
         "word_cloud_data":{},
+        "anomaly_data":[
+            {"date":"2019-01-01", "anomaly":0.1, "volume":100},
+            {"date":"2019-01-02", "anomaly":0.2, "volume":200},
+            {"date":"2019-01-03", "anomaly":0.75,   "volume":500},
+            {"date":"2019-01-04", "anomaly":0.9, "volume":1800},
+            {"date":"2019-01-05", "anomaly":0.8, "volume":900},
+            {"date":"2019-01-06", "anomaly":0.2, "volume":100},
+
+        ],
     }
     return JsonResponse(data)
