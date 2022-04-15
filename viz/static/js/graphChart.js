@@ -8,7 +8,7 @@ buildSentimentChart = function(data) {
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
-        .attr("id", "priceVolumeChart")
+        .attr("id", "sentimentChart")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
@@ -40,7 +40,7 @@ buildSentimentChart = function(data) {
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", "translate(0," + height/4 + ")")
+        .attr("transform", "translate(0," + height/2 + ")")
         .call(xAxis);
     
     svg.append("g")
@@ -58,6 +58,15 @@ buildSentimentChart = function(data) {
         .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 2))
         .attr("class", "componentTitle")
+        .text("Sentiment");
+    
+    // add y axis label
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", 25 - margin.left)
+        .attr("x",0 - (height / 4))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
         .text("Sentiment");
 
     // add line with area with radial gradient
@@ -111,9 +120,16 @@ buildSentimentChart = function(data) {
 
 
     focus.append("text")
+        .attr("id", "tooltipDateSentiment")
         .attr("class", "tooltip-text")
         .attr("x", 18)
         .attr("y", -2);
+    
+    focus.append("text")
+        .attr("id", "tooltipVolume")
+        .attr("class", "tooltip-text")
+        .attr("x", 18)
+        .attr("y", 18);
 
     focus.append("path")
         .attr("class", "line")
@@ -134,7 +150,8 @@ buildSentimentChart = function(data) {
             d1 = data[i],
             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
         focus.attr("transform", "translate(" + x(d.date) + "," + y(d.sentiment) + ")");
-        focus.select("text.tooltip-text").text(function() { return dateFormatter(d.date) + ": " + formatValue(d.sentiment); });
+        focus.select("text.tooltip-text").text(function() { return dateFormatter(d.date) + ": " + formatValue(d.sentiment) });
+        focus.select("#tooltipVolume").text(function() { return "Volume: " + formatValue(d.volume); });
         // focus.select("text.tooltip-text").attr("x", 18 - x(d.date));
         // focus.select("text.tooltip-text").attr("y", 18);
         var path_ = d3.line()([[0, 3*y(-1)- y(d.sentiment)], [0, y(1) - y(d.sentiment)]]);
@@ -147,6 +164,43 @@ buildSentimentChart = function(data) {
     svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
     
         
+    // add volume chart
+    yVolume = d3.scaleLinear()
+        .range([height/2, 0])
+        .domain([0, d3.max(data, function(d) { return d.volume; })]);
+    var yAxisVolume = d3.axisLeft(yVolume);
+
+    svg.append("g")
+        .attr("class", "volume")    
+        .attr("transform", "translate(" + 0 + "," + (height/2 + margin.bottom/2) + ")");  
     
+    var volume = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return yVolume(d.volume); });
+    
+    svg.select(".volume").append("path")
+        .datum(data)
+        .attr("class", "volume")
+        .attr("d", volume);
+    
+    svg.select(".volume").append("g")
+        .attr("class", "y axis")
+        .call(yAxisVolume);
+    
+    //x-axis
+   
+    svg.select(".volume").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    svg.select(".volume").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    
+    // y axis label
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("y", 25-margin.left)
+        .attr("x", -0.75 * height)
+        .attr("dy", "1em")
+        .attr("transform", "rotate(-90)")
+        .text("Volume");
+
 
 }
