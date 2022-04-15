@@ -48,3 +48,9 @@ rect.tooltip {
     font-weight: bold;
     text-anchor: middle;
 }
+
+path.volume{
+fill: none;
+stroke: #0b8eab;
+stroke-width: 1px;
+}
