@@ -95,15 +95,14 @@ svg.append("g")
 
 svg.append("path")
     .datum(chartData)
-    .attr("class", "line")
+    .attr("class", "volume")
     .attr("d", line)
-    .style("stroke", "#4169E1")
 
 svg.append("path")
     .datum(chartData)
     .attr("class", "line")
     .attr("id", "anomaly_line")
-    .style("stroke", "red")
+    .style("stroke", "#FF6961")
     .attr("d", anomaly_line)
     .on("mouseover",  function(d) {
         d3.select(this)
