@@ -29,7 +29,16 @@ def get_all_data(request, value):
             {"feature": "feature4", "value": -0.2},
             {"feature": "feature5", "value": 0.57},
         ],
-        "graph_data":{},
+        "graph_data":[
+                {"source": "feature1", "target": "feature2", "value": 500},
+                {"source": "feature1", "target": "feature3", "value": 23},
+                {"source": "feature1", "target": "feature4", "value": 134},
+                {"source": "feature1", "target": "feature5", "value": 250},
+                {"source": "feature2", "target": "feature3", "value": 523},
+                {"source": "feature2", "target": "feature4", "value": 19},
+                {"source": "feature2", "target": "feature5", "value": 250},
+            ]
+        ,
         "sentiment_data":[
             {"sentiment":-0.2, "date":"2019-01-01", "volume":150},
             {"sentiment":-0.1, "date":"2019-01-02", "volume":210},
