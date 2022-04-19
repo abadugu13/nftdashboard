@@ -47,12 +47,20 @@ rect.tooltip {
     color:#fff;
     font-weight: bold;
     text-anchor: middle;
-}
+/* background: white; */display: table;}
 
 path.volume{
 fill: none;
-stroke: #4169e1;
+stroke: #0190f8;
 stroke-width: 4px;
 }
 
-path.volume {}
+g.links {
+    stroke: white;
+}
+
+circle {
+    fill: #BB86FC;
+    stroke: #BB86FC;
+    stroke-width: 2px;
+}
