@@ -71,6 +71,7 @@ buildSentimentChart = function(data) {
 
     // add line with area with radial gradient
     var area = d3.area()
+        // .curve(d3.curveBasis)
         .x(function(d) { return x(d.date); })
         .y0(y(0))   // y0 is the y coordinate of the bottom of the area
         .y1(function(d) { return y(d.sentiment); });
@@ -86,17 +87,27 @@ buildSentimentChart = function(data) {
 
     lg.append("stop")
     .attr("offset", "0%")
-    .style("stop-color", "red")//start in red
+    .style("stop-color", "#d73010")//start in red
+    .style("stop-opacity", 1)
+
+    lg.append("stop")
+    .attr("offset", "25%")
+    .style("stop-color", "#e94f2e")//start in red
     .style("stop-opacity", 1)
 
     lg.append("stop")
     .attr("offset", "50%")
-    .style("stop-color", "#ffff")//mid in white
+    .style("stop-color", "#FAF9F6")//mid in white
+    .style("stop-opacity", 1)
+    
+    lg.append("stop")
+    .attr("offset", "75%")
+    .style("stop-color", "#35df91")//end in green
     .style("stop-opacity", 1)
 
     lg.append("stop")
     .attr("offset", "100%")
-    .style("stop-color", "#5fa55a")//end in green
+    .style("stop-color", "#179058")//end in green
     .style("stop-opacity", 1)
   
     
@@ -133,12 +144,13 @@ buildSentimentChart = function(data) {
 
     focus.append("path")
         .attr("class", "line")
+        .style("stroke", "white")
         .style("stroke-dasharray", "5,5")
 
     svg.append("rect")
         .attr("class", "overlay")
         .attr("width", width)
-        .attr("height", height/2)
+        .attr("height", height)
         .on("mouseover", function() { focus.style("display", null); })
         .on("mouseout", function() { focus.style("display", "none"); })
         .on("mousemove", mousemove);
