@@ -22,4 +22,4 @@ Navigate to http://127.0.0.1:8000/viz/ to check the vizualization
 
 # Current State
 
-![Alt text](images/screenshot.jpeg?raw=true "Title")
+![Alt text](images/page_capture_final.png?raw=true "Title")
