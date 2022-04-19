@@ -46,7 +46,12 @@ def get_all_data(request, value):
             {"sentiment":-0.9, "date":"2019-01-04", "volume":800},
             {"sentiment":0.90, "date":"2019-01-05", "volume":300},
         ],
-        "word_cloud_data":{},
+        "word_cloud_data":[
+            {"text":"word1", "frequency":100},
+            {"text":"word2", "frequency":250},
+            {"text":"word3", "frequency":123},
+            {"text":"word4", "frequency":345},
+        ],
         "anomaly_data":[
             {"date":"2019-01-01", "anomaly":0.1, "volume":100},
             {"date":"2019-01-02", "anomaly":0.2, "volume":200},
