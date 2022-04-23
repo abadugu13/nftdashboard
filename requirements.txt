@@ -1,8 +1,8 @@
 asgiref==3.5.0
 certifi==2021.10.8
-Django==4.0.4
-numpy==1.22.3
-pandas==1.4.2
+Django
+numpy
+pandas
 psycopg2-binary==2.9.3
 python-dateutil==2.8.2
 pytz==2022.1
