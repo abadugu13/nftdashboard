@@ -48,11 +48,11 @@ buildGraphChart = function(data){
     var simulation = d3.forceSimulation()
     .force("link", 
            d3.forceLink().id(function(d) { return d.name; })
-           	.distance(function(d) { return radius(d.source.unique_degree / 2) + radius(d.target.unique_degree / 2); })
+           	.distance(function(d) { return (radius(d.source.unique_degree) + radius(d.target.unique_degree))/2; })
           .strength(function(d) {return 0.75; })
           )
     .force("charge", d3.forceManyBody().strength(-10))
-		.force("collide", d3.forceCollide().radius(function(d) { return radius(d.degree / 2) + 2; }))
+		.force("collide", d3.forceCollide().radius(function(d) { return radius(d.degree / 5) + 1; }))
     .force("center", d3.forceCenter(width / 2, height / 2));
         
 
