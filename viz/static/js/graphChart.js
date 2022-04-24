@@ -12,7 +12,7 @@ buildSentimentChart = function(data) {
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    var parseDate = d3.timeParse("%Y-%m-%d"),
+    var parseDate = d3.timeParse("%m-%d-%Y"),
     bisectDate = d3.bisector(function(d) { return d.date; }).left,
     formatValue = d3.format(","),
         dateFormatter = d3.timeFormat("%m/%d/%y");
@@ -23,6 +23,7 @@ buildSentimentChart = function(data) {
             sentiment: d.sentiment,
             volume: d.volume
         }})
+    console.log(data.slice(0, 10));
     
     // line chart with date on x axis and sentiment on y axis with radial gradient
 
@@ -115,6 +116,7 @@ buildSentimentChart = function(data) {
         .datum(data)
         .attr("class", "area")
         .attr("d", area)
+        .style("stroke", "darkgrey")
         .attr("fill", "url(#area)");
     
     
