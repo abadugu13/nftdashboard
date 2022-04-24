@@ -22,7 +22,8 @@ buildPriceVolumeChart = function(data) {
         return {
             date: parseDate(d.date),
             price: d.price,
-            volume: d.volume
+            volume: d.volume,
+            prediction: d.prediction
         }})
     // line chart with date on x axis and price on y axis
     var x = d3.scaleTime()
@@ -31,11 +32,19 @@ buildPriceVolumeChart = function(data) {
         .range([height, 0]);
     var line = d3.line()
         .x(function(d) { return x(d.date); })
-        .y(function(d) { return y(d.price); });
+        .y(function(d) { return y(d.price); })
+        .defined(function(d) { return !d.prediction });
+    
+    var prediction_line = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return y(d.price); })
+        .defined(function(d,i) { return d.prediction || ( i < data.length && data[i+1].prediction); });
     var xAxis = d3.axisBottom(x);
     var yAxis = d3.axisLeft(y);
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([0, d3.max(data, function(d) { return d.price; })]);
+
+   
 
     svg.append("g")
         .attr("class", "x axis")
@@ -57,6 +66,15 @@ buildPriceVolumeChart = function(data) {
           .attr("stroke-dashoffset", function(d) {
             return this.getTotalLength()
           });
+    svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .style("stroke", "red")
+        .attr("d", prediction_line)
+        .attr("stroke-dasharray", function(d) { return this.getTotalLength() })
+        .attr("stroke-dashoffset", function(d) { return this.getTotalLength() });
+
+    
     svg.selectAll(".line")
         .transition()
         .duration(1000)
