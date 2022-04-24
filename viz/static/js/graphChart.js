@@ -34,15 +34,20 @@ buildSentimentChart = function(data) {
     var line = d3.line()
         .x(function(d) { return x(d.date); })
         .y(function(d) { return y(d.sentiment); });
-    var xAxis = d3.axisBottom(x);
+    var xAxis = d3.axisBottom(x)
     var yAxis = d3.axisLeft(y);
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([-1, 1]);
 
+    
+
+    // rotate x axis labels by 45 degrees
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height/2 + ")")
-        .call(xAxis);
+        .call(xAxis)
+
+    svg.selectAll(".x.axis text").attr("transform", "translate(0,10)rotate(-45)")
     
     svg.append("g")
         .attr("class", "y axis")
@@ -233,7 +238,7 @@ buildSentimentChart = function(data) {
         focus.select("#tooltipVolume").text(function() { return "Volume: " + formatValue(d.volume); });
         // focus.select("text.tooltip-text").attr("x", 18 - x(d.date));
         // focus.select("text.tooltip-text").attr("y", 18);
-        var path_ = d3.line()([[0, 3*y(-1)- y(d.sentiment)], [0, y(1) - y(d.sentiment)]]);
+        var path_ = d3.line()([[0, 3*y(-1)- y(d.sentiment)-10], [0, y(1) - y(d.sentiment)-10]]);
         focus.select("path.line").attr("d", path_);
     }
     
