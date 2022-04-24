@@ -1,17 +1,15 @@
  
  
  buildWordCloud= function(data) {
-
     const margin = {top: 60, right: 40, bottom: 60, left: 80},
         width = 960 * 0.75 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
-
+    console.log(data);
     var g = d3.select("#components").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
     // add title
     g.append("text")
         .attr("x", (width / 2))
@@ -19,16 +17,17 @@
         .attr("class", "componentTitle")
         .text("Word Cloud");
     // var color = d3.scaleOrdinal(d3.schemeCategory20);
-  
-    const wordScale = d3.scaleLinear()
-    	.domain([0,500])
-    	.range([10, 120])
+    // d3 sqrt scale for word
+    var wordScale = d3.scaleSqrt()
+        .domain([1, d3.max(data, function(d) { return d.frequency; })])
+        .range([1, 50]);
+    
     
     var layout = d3.layout.cloud()
       .size([width, height])
       .timeInterval(20)
       .words(data)
-      .rotate(function(d) { return 0; })
+      .rotate(function(d, i) { return i==0?0:~~(Math.random() * 2) * 90; })
       .fontSize(function(d) {return wordScale(d.frequency); })
     //   .fontStyle(function(d,i) { return fontSyle(Math.random()); })
       .fontWeight(["bold"])
@@ -37,6 +36,7 @@
       .on("end", draw)
       .start();
     
+    console.log(layout.fontSize());
 
     var wordcloud = g.append("g")
       .attr('class','wordcloud')
