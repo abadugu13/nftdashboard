@@ -17,8 +17,9 @@ getNftCollection = function() {
             //remove previous chart
             
             // update the chart
-            buildPriceVolumeChart(data.price_data);
-            buildFeatureChart(data.feature_data);
+            // buildPriceVolumeChart(data.price_data);
+            buildVolumeChart(data.price_data);
+            // buildFeatureChart(data.feature_data);
             buildSentimentChart(data.sentiment_data);
             buildAnomalyChart(data.anomaly_data);
             buildGraphChart(data.graph_data);

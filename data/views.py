@@ -15,12 +15,12 @@ def get_all_data(request, value):
     print(value)
     data = {
         "price_data":[
-            {"date": "2019-01-01", "price": 100},
-            {"date": "2019-01-02", "price": 500},
-            {"date": "2019-01-03", "price": 200},
-            {"date": "2019-01-04", "price": 300},
-            {"date": "2019-01-05", "price": 100},
-            {"date": "2019-01-06", "price": 345},
+            {"date": "2019-01-01", "price": 100, "prediction": False, "volume": 100},
+            {"date": "2019-01-02", "price": 500, "prediction": False, "volume": 240},
+            {"date": "2019-01-03", "price": 200, "prediction": False, "volume": 300},
+            {"date": "2019-01-04", "price": 300, "prediction": False, "volume": 40},
+            {"date": "2019-01-05", "price": 100, "prediction": True, "volume": 500},
+            {"date": "2019-01-06", "price": 345, "prediction": True, "volume": 700},
         ],
         "feature_data":[
             {"feature": "feature1", "value": 0.5},
