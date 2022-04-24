@@ -3,20 +3,26 @@ from django.http import JsonResponse
 import numpy as np
 import pandas as pd
 import json
+import networkx as nx
 
 from pkg_resources import working_set
 # Create your views here.
-
-def gen_radom_time_series(cols, start, end):
-    N = 10
-    rng = pd.date_range(start=start, end=end, periods=N)
-    df = pd.DataFrame(np.random.rand(N, 3), columns=cols, index=rng)
-    return df
 
 df_time_series = pd.read_csv("data/time_series_data/final_result.csv")
 df_time_series["Collection"] = df_time_series["Collection"].str.lower()
 df_time_series["prediction_flag"] = ~df_time_series["prediction"].isnull()
 df_time_series["volume"] = df_time_series.apply(lambda row: row["prediction"] if row["prediction_flag"] else row["sales"], axis=1)
+
+def centrality_measures(data):
+    data_new = pd.DataFrame(data.values.repeat(data.edge_value, axis=0), \
+                            columns=data.columns)[['Seller_address','Buyer_address']]
+    tuples = [tuple(x) for x in data_new.to_numpy()]
+    G = nx.Graph()
+    G.add_edges_from(tuples)
+    betweenness_centrality = nx.betweenness_centrality(G)
+    closeness_centrality = nx.closeness_centrality(G)
+    degree_centrality = nx.degree_centrality(G)
+    return betweenness_centrality,closeness_centrality,degree_centrality
 
 def get_all_data(request, value):
     print(value)
@@ -38,7 +44,9 @@ def get_all_data(request, value):
         graph_df = pd.read_csv("data/graph_data/Cryptovoxelsgraph_network.csv")
     elif value == 'cryptopunks':
         graph_df = pd.read_csv("data/graph_data/Cryptopunksgraph_network.csv")
+
     
+    # centralities = centrality_measures(graph_df)
     graph_data = [{"source":x["Seller_address"], "target":x["Buyer_address"],  "value":x["edge_value"]} for x in graph_df.to_dict(orient='records')]
 
     anomaly_data_path = f'data/anomaly_data/anomaly_{value}.csv'
@@ -64,8 +72,7 @@ def get_all_data(request, value):
             {"feature": "feature4", "value": -0.2},
             {"feature": "feature5", "value": 0.57},
         ],
-        "graph_data":graph_data
-        ,
+        "graph_data":graph_data,
         "sentiment_data": sentiment_data,
         "word_cloud_data":sorted(word_cloud_out, key=lambda x: x["frequency"], reverse=True)[:500],
         "anomaly_data":{"volumeData":time_series_data, "anomalyData":anomaly_data},
