@@ -73,7 +73,7 @@ buildVolumeChart = function(data){
     svg.selectAll(".bar")
         .data(data)
         .transition()
-        .duration(1000)
+        .duration(5000)
         .attr("y", function(d) { return y(d.volume); })
         .attr("fill", function(d) { return d.prediction ? "#f85701" : "#0190f8"; })
         .attr("height", function(d) { return height - y(d.volume); })
