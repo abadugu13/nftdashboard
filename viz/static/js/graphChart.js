@@ -110,6 +110,26 @@ buildSentimentChart = function(data) {
     .attr("offset", "100%")
     .style("stop-color", "#179058")//end in green
     .style("stop-opacity", 1)
+
+    var lg2 = svg.append("defs").append("linearGradient")
+    .attr("id", "area2")//id of the gradient
+    .attr("x1", "0%")
+    .attr("x2", "0%")
+    .attr("y1", "0%")
+    .attr("y2", "100%");
+    ;
+
+    lg2.append("stop")
+    .attr("offset", "0%")
+    .style("stop-color", "#80a7be")//start in red
+    .style("stop-opacity", 1)
+    
+    lg2.append("stop")
+    .attr("offset", "100%")
+    .style("stop-color", "#abe0ff")//start in red
+    .style("stop-opacity", 1)
+
+
   
     
     svg.append("path")
@@ -118,6 +138,50 @@ buildSentimentChart = function(data) {
         .attr("d", area)
         .style("stroke", "darkgrey")
         .attr("fill", "url(#area)");
+
+        yVolume = d3.scaleLinear()
+        .range([height/2, 0])
+        .domain([0, d3.max(data, function(d) { return d.volume; })]);
+    var yAxisVolume = d3.axisLeft(yVolume);
+
+    svg.append("g")
+        .attr("class", "volume")    
+        .attr("transform", "translate(" + 0 + "," + (height/2 + margin.bottom/2) + ")");  
+    
+    var volume = d3.line()
+        .x(function(d) { return x(d.date); })
+        .y(function(d) { return yVolume(d.volume); });
+    
+    var volumeArea = d3.area()
+        .x(function(d) { return x(d.date); })
+        .y0(height/2)
+        .y1(function(d) { return yVolume(d.volume); });
+    
+    svg.select(".volume").append("path")
+        .datum(data)
+        .attr("class", "volume")
+        .attr("d", volumeArea)
+        .style("stroke", "none")
+        .style("fill", "url(#area2)");
+
+    svg.select(".volume").append("g")
+        .attr("class", "y axis")
+        .call(yAxisVolume);
+    
+    //x-axis
+   
+    // svg.select(".volume").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    // svg.select(".volume").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    
+    // y axis label
+    svg.append("text")
+        .attr("class", "y label")
+        .attr("text-anchor", "middle")
+        .attr("y", 25-margin.left)
+        .attr("x", -0.75 * height)
+        .attr("dy", "1em")
+        .attr("transform", "rotate(-90)")
+        .text("Volume");
     
     
     var focus = svg.append("g")
@@ -146,7 +210,7 @@ buildSentimentChart = function(data) {
 
     focus.append("path")
         .attr("class", "line")
-        .style("stroke", "white")
+        .style("stroke", "black")
         .style("stroke-dasharray", "5,5")
 
     svg.append("rect")
@@ -164,7 +228,8 @@ buildSentimentChart = function(data) {
             d1 = data[i],
             d = x0 - d0.date > d1.date - x0 ? d1 : d0;
         focus.attr("transform", "translate(" + x(d.date) + "," + y(d.sentiment) + ")");
-        focus.select("text.tooltip-text").text(function() { return dateFormatter(d.date) + ": " + formatValue(d.sentiment) });
+        focus.select("text.tooltip-text").text(function() { return dateFormatter(d.date) + ": " + formatValue(Math.round(d.sentiment * 100) / 100
+        ) });
         focus.select("#tooltipVolume").text(function() { return "Volume: " + formatValue(d.volume); });
         // focus.select("text.tooltip-text").attr("x", 18 - x(d.date));
         // focus.select("text.tooltip-text").attr("y", 18);
@@ -172,49 +237,14 @@ buildSentimentChart = function(data) {
         focus.select("path.line").attr("d", path_);
     }
     
-    svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    // svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    // svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    // svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    // svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
     
         
     // add volume chart
-    yVolume = d3.scaleLinear()
-        .range([height/2, 0])
-        .domain([0, d3.max(data, function(d) { return d.volume; })]);
-    var yAxisVolume = d3.axisLeft(yVolume);
-
-    svg.append("g")
-        .attr("class", "volume")    
-        .attr("transform", "translate(" + 0 + "," + (height/2 + margin.bottom/2) + ")");  
     
-    var volume = d3.line()
-        .x(function(d) { return x(d.date); })
-        .y(function(d) { return yVolume(d.volume); });
-    
-    svg.select(".volume").append("path")
-        .datum(data)
-        .attr("class", "volume")
-        .attr("d", volume);
-    
-    svg.select(".volume").append("g")
-        .attr("class", "y axis")
-        .call(yAxisVolume);
-    
-    //x-axis
-   
-    svg.select(".volume").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".volume").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
-    
-    // y axis label
-    svg.append("text")
-        .attr("class", "y label")
-        .attr("text-anchor", "middle")
-        .attr("y", 25-margin.left)
-        .attr("x", -0.75 * height)
-        .attr("dy", "1em")
-        .attr("transform", "rotate(-90)")
-        .text("Volume");
 
 
 }

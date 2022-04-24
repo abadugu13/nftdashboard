@@ -121,10 +121,10 @@ svg.append("text")
         .attr("class", "componentTitle")
         .text("Anomaly Chart");
 
-svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+// svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+//     svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+//     svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+//     svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
 
 // y label
 

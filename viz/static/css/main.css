@@ -1,5 +1,5 @@
 path.domain {
-    stroke: ghostwhite;
+    /* stroke: ghostwhite; */
 }
 
 path.line {
@@ -9,7 +9,7 @@ path.line {
 }
 
 g.x.axis.text {
-    color: ghostwhite;
+    /* color: ghostwhite; */
 }
 
 .overlay {
@@ -44,7 +44,7 @@ rect.tooltip {
 
 .componentTitle{
     font-size: 24px;
-    color:#fff;
+    /* color:#fff; */
     font-weight: bold;
     text-anchor: middle;
 /* background: white; */display: table;}
@@ -56,7 +56,8 @@ stroke-width: 1px;
 }
 
 g.links {
-    stroke: white;
+    /* stroke: white; */
+    stroke: black;
 }
 
 circle {
