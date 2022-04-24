@@ -27,6 +27,19 @@ def get_all_data(request, value):
     print(time_series)
     time_series_data = [{"date":x["Datetime_updated"], "volume":x["volume"], "price":0, "prediction":x["prediction_flag"]} for x in time_series.to_dict(orient='records')]
 
+    if value == 'cryptokitties':
+        graph_df = pd.read_csv("data/graph_data/Cryptokittiesgraph_network.csv")
+    elif value == 'decentraland':
+        graph_df = pd.read_csv("data/graph_data/Decentralandgraph_network.csv")
+    elif value == 'cyberkongs':
+        graph_df = pd.read_csv("data/graph_data/Cyberkongzgraph_network.csv")
+    elif value == 'cryptovoxels':
+        graph_df = pd.read_csv("data/graph_data/Cryptovoxelsgraph_network.csv")
+    elif value == 'cryptopunks':
+        graph_df = pd.read_csv("data/graph_data/Cryptopunksgraph_network.csv")
+    
+    graph_data = [{"source":x["Seller_address"], "target":x["Buyer_address"],  "value":x["edge_value"]} for x in graph_df.to_dict(orient='records')]
+
     data = {
         "price_data": time_series_data,
         "feature_data":[
@@ -36,15 +49,7 @@ def get_all_data(request, value):
             {"feature": "feature4", "value": -0.2},
             {"feature": "feature5", "value": 0.57},
         ],
-        "graph_data":[
-                {"source": "feature1", "target": "feature2", "value": 500},
-                {"source": "feature1", "target": "feature3", "value": 23},
-                {"source": "feature1", "target": "feature4", "value": 134},
-                {"source": "feature1", "target": "feature5", "value": 250},
-                {"source": "feature2", "target": "feature3", "value": 523},
-                {"source": "feature2", "target": "feature4", "value": 19},
-                {"source": "feature2", "target": "feature5", "value": 250},
-            ]
+        "graph_data":graph_data
         ,
         "sentiment_data": sentiment_data,
         "word_cloud_data":[
