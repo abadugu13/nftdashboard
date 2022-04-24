@@ -6,6 +6,8 @@ buildAnomalyChart = function(chartData) {
     console.log(anomalyData.slice(0, 10));
     anomalyDataParse = d3.timeParse("%-m/%-d/%Y")
     parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+    dateFormatter = d3.timeFormat("%m/%d/%y");
+
     var anomalyData = anomalyData.map(function(d) {
         return {
             date: anomalyDataParse(d.date),
@@ -19,6 +21,8 @@ buildAnomalyChart = function(chartData) {
     const margin = {top: 40, right: 40, bottom: 60, left: 80},
         width = 960 * 0.75 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
+
+
 
 
 
@@ -100,22 +104,22 @@ svg.append("path")
     .attr("class", "volume")
     .attr("d", line)
 
-// svg.append("path")
-//     .datum(anomalyData)
-//     .attr("class", "line")
-//     .attr("id", "anomaly_line")
-//     .style("stroke", "#FF6961")
-//     .attr("d", anomaly_line)
-//     .on("mouseover",  function(d) {
-//         d3.select(this)
-//             .style("stroke-width", "4px")
-//     })
-//     .on("mouseout", function(d){
-//         d3.select(this)
-//             .style("stroke-width", "2px")
-//     })
+var focus = svg.append("g")
+    .attr("class", "focus")
+    .style("display", "none");
+focus.append("rect")
+    .attr("class", "tooltip")
+    .attr("width", 90)
+    .attr("height", 30)
+    .attr("x", 9)
+    .attr("y", -13)
+    .attr("fill", "black")
 
-// draw analomous points
+focus.append("text")
+    .attr("x", 9)
+    .style("font-size", "12px")
+    .attr("dy", ".35em");
+
 svg.selectAll("circle")
     .data(anomalyData)
     .enter()
@@ -135,12 +139,16 @@ svg.selectAll("circle")
             .style("opacity", 1)
             .style("stroke", "black")
             .style("stroke-width", "2px")
+        focus.style("display", null);
+        focus.select("text").text(dateFormatter(d.date) + ": " + d.volume);
+        focus.attr("transform", "translate(" + xScale(d.date) + "," + yScale(d.volume) + ")");
     })
     .on("mouseout", function(d) {
         d3.select(this)
             .style("fill", "red")
             .style("opacity", 0.5)
             .style("stroke", "none")
+        focus.style("display", "none");
     })
 
 
@@ -171,5 +179,8 @@ svg.append("text")
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text("Volume");
+
+// tooltip
+
 
 }
