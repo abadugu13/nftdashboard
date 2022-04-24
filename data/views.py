@@ -41,6 +41,12 @@ def get_all_data(request, value):
     
     graph_data = [{"source":x["Seller_address"], "target":x["Buyer_address"],  "value":x["edge_value"]} for x in graph_df.to_dict(orient='records')]
 
+    anomaly_data_path = f'data/anomaly_data/anomaly_{value}.csv'
+    anomaly_data = pd.read_csv(anomaly_data_path)
+    print(anomaly_data.head())
+    anomaly_data = [{"date":x["date"], "volume":x["count"]} for x in anomaly_data.to_dict(orient='records')]
+    print(anomaly_data[:10])
+    
     word_cloud_path = f'data/wordcloud_data/#{value}_wordcloud.json'
     with open(word_cloud_path, 'r') as f:
         word_cloud_data = json.load(f)
@@ -62,14 +68,6 @@ def get_all_data(request, value):
         ,
         "sentiment_data": sentiment_data,
         "word_cloud_data":sorted(word_cloud_out, key=lambda x: x["frequency"], reverse=True)[:500],
-        "anomaly_data":[
-            {"date":"2019-01-01", "anomaly":0.1, "volume":100},
-            {"date":"2019-01-02", "anomaly":0.2, "volume":200},
-            {"date":"2019-01-03", "anomaly":0.75,   "volume":500},
-            {"date":"2019-01-04", "anomaly":0.9, "volume":1800},
-            {"date":"2019-01-05", "anomaly":0.8, "volume":900},
-            {"date":"2019-01-06", "anomaly":0.2, "volume":100},
-
-        ],
+        "anomaly_data":{"volumeData":time_series_data, "anomalyData":anomaly_data},
     }
     return JsonResponse(data)
