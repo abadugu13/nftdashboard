@@ -8,6 +8,10 @@ def index(request):
         "collections":[
             {"name": "CryptoKitties", "id": "cryptokitties"},
             {"name": "CryptoPunks", "id": "cryptopunks"},
+            {"name": "Azuki", "id": "azuki"},
+            {"name": "Cryptovoxels", "id": "cryptovoxels"},
+            {"name": "CyberKongz", "id": "cyberkongz"},
+            {"name":"Decentraland", "id": "decentraland"},
         ]
     }
     return render(request, 'index.html', context)
