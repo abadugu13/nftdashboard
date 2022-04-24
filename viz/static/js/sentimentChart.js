@@ -18,7 +18,7 @@ buildGraphChart = function(data){
         link.source.degree =  (link.source.degree || 0) + link.value;
         link.target.degree =  (link.target.degree || 0) + link.value;
         link.source.unique_degree =  (link.source.unique_degree || 0) + 1;
-        link.target.unique_degree =  (link.target.unique_degree || 0) + 1;x
+        link.target.unique_degree =  (link.target.unique_degree || 0) + 1;
     });
 
     // sort nodes by degree, descending
