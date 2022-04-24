@@ -3,6 +3,8 @@ from django.http import JsonResponse
 import numpy as np
 import pandas as pd
 import json
+
+from pkg_resources import working_set
 # Create your views here.
 
 def gen_radom_time_series(cols, start, end):
@@ -24,14 +26,13 @@ def get_all_data(request, value):
         sentiment_data = [{"date":x["dt"].split()[0], "volume":x["volume"], "sentiment":x["compound_score"]} for x in sentiment_data]
     
     time_series = df_time_series[df_time_series["Collection"] == value]
-    print(time_series)
     time_series_data = [{"date":x["Datetime_updated"], "volume":x["volume"], "price":0, "prediction":x["prediction_flag"]} for x in time_series.to_dict(orient='records')]
 
     if value == 'cryptokitties':
         graph_df = pd.read_csv("data/graph_data/Cryptokittiesgraph_network.csv")
     elif value == 'decentraland':
         graph_df = pd.read_csv("data/graph_data/Decentralandgraph_network.csv")
-    elif value == 'cyberkongs':
+    elif value == 'cyberkongz':
         graph_df = pd.read_csv("data/graph_data/Cyberkongzgraph_network.csv")
     elif value == 'cryptovoxels':
         graph_df = pd.read_csv("data/graph_data/Cryptovoxelsgraph_network.csv")
@@ -40,6 +41,14 @@ def get_all_data(request, value):
     
     graph_data = [{"source":x["Seller_address"], "target":x["Buyer_address"],  "value":x["edge_value"]} for x in graph_df.to_dict(orient='records')]
 
+    word_cloud_path = f'data/wordcloud_data/#{value}_wordcloud.json'
+    with open(word_cloud_path, 'r') as f:
+        word_cloud_data = json.load(f)
+        word_cloud_out = []
+        for key, value in word_cloud_data.items():
+            if key == "cryptokitties":
+                print(key, value)
+            word_cloud_out.append({"text":key, "frequency":value})
     data = {
         "price_data": time_series_data,
         "feature_data":[
@@ -52,12 +61,7 @@ def get_all_data(request, value):
         "graph_data":graph_data
         ,
         "sentiment_data": sentiment_data,
-        "word_cloud_data":[
-            {"text":"word1", "frequency":100},
-            {"text":"word2", "frequency":250},
-            {"text":"word3", "frequency":123},
-            {"text":"word4", "frequency":345},
-        ],
+        "word_cloud_data":sorted(word_cloud_out, key=lambda x: x["frequency"], reverse=True)[:500],
         "anomaly_data":[
             {"date":"2019-01-01", "anomaly":0.1, "volume":100},
             {"date":"2019-01-02", "anomaly":0.2, "volume":200},
