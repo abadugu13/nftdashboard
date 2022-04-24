@@ -52,7 +52,7 @@ rect.tooltip {
 path.volume{
 fill: none;
 stroke: #0190f8;
-stroke-width: 4px;
+stroke-width: 1px;
 }
 
 g.links {
