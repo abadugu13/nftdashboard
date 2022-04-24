@@ -22,10 +22,13 @@ buildAnomalyChart = function(chartData) {
         width = 960 * 0.75 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
-
-
-
-
+    // Filter data to only show from 2020
+    var anomalyData = anomalyData.filter(function(d) {
+        return d.date > new Date("2020-01-01");
+    });
+    var volumeData = volumeData.filter(function(d) {           
+        return d.date > new Date("2020-01-01");
+    });
 
 
 // set up the scales
