@@ -12,19 +12,23 @@ buildVolumeChart = function(data){
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
     
-    var parseDate = d3.timeParse("%Y-%m-%d"),
+    var parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S"),
     bisectDate = d3.bisector(function(d) { return d.date; }).left,
     formatValue = d3.format(","),
-        dateFormatter = d3.timeFormat("%m/%d/%y");
-
+        dateFormatter = d3.timeFormat("%Y-%m-%d");
+    console.log(data.slice(0, 10));
     data = data.map(function(d) {
         return {
             date: parseDate(d.date),
             volume: d.volume,
             prediction: d.prediction
         }})
-    // bar chart with date on x axis and volume on y axis
     
+    data = data.filter(function(d) {
+        return d.date > new Date("2020-01-01");
+    });
+    // bar chart with date on x axis and volume on y axis
+    console.log(data.slice(0, 10));
     var x = d3.scaleBand()
         .range([0, width])
         .padding(0.1)
@@ -38,12 +42,12 @@ buildVolumeChart = function(data){
     // x axis tick format
     xAxis.tickFormat(function(d) {
         return dateFormatter(d);
-    });
+    }).tickValues(x.domain().filter(function(d, idx) { return idx%60==0 }));
 
     svg.append("g")
         .attr("class", "x axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(xAxis);
+        .call(xAxis.ticks(2));
 
     svg.append("g")
         .attr("class", "y axis")
@@ -83,7 +87,7 @@ buildVolumeChart = function(data){
     svg.selectAll(".bar")
         .on("mouseover", function(d) {
             d3.select(this)
-                .attr("stroke", "white")
+                .attr("stroke", "black")
                 .attr("stroke-width", "2px");
             svg.select(".tooltip")
                 .style("display", null)
@@ -101,7 +105,7 @@ buildVolumeChart = function(data){
             svg.select(".tooltip")
                 .style("display", "none")
                 .selectAll("text").remove();
-                
+
         });
     // add title
     svg.append("text")
@@ -150,9 +154,9 @@ buildVolumeChart = function(data){
         .style("text-anchor", "end")
         .text(function(d) { return d; });
     
-    svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
-    svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    // svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    // svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
+    // svg.select(".y.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
+    // svg.select(".y.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");
     
 }
