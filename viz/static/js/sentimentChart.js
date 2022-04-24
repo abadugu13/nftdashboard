@@ -18,10 +18,21 @@ buildGraphChart = function(data){
         link.source.degree =  (link.source.degree || 0) + link.value;
         link.target.degree =  (link.target.degree || 0) + link.value;
         link.source.unique_degree =  (link.source.unique_degree || 0) + 1;
-        link.target.unique_degree =  (link.target.unique_degree || 0) + 1;
+        link.target.unique_degree =  (link.target.unique_degree || 0) + 1;x
     });
 
-    graph = {nodes: d3.values(nodes), links: links};
+    // sort nodes by degree, descending
+    nodes = d3.values(nodes);
+    nodes.sort(function(a, b) { return b.degree - a.degree; });
+    var threshold = nodes[100].degree;
+    console.log("max degree: ", nodes[0].degree);
+    nodes = nodes.filter(function(d) { return d.degree >= threshold; });
+    links = links.filter(function(d) { return d.source.degree >= threshold && d.target.degree >= threshold; });
+
+    graph = {nodes: nodes, links: links};
+    console.log(graph.nodes.length);
+    
+    
     // margins
     var margin = {top: 40, right: 40, bottom: 60, left: 80},
         width = 720 - margin.left - margin.right,
@@ -43,16 +54,17 @@ buildGraphChart = function(data){
     // draw network
     
     var radius = d3.scaleSqrt()
-    .range([0, 6]);
+        .domain([0, d3.max(graph.nodes, function(d) { return d.degree; })])
+    .range([0, 20]);
 
     var simulation = d3.forceSimulation()
     .force("link", 
            d3.forceLink().id(function(d) { return d.name; })
-           	.distance(function(d) { return (radius(d.source.unique_degree) + radius(d.target.unique_degree))/2; })
-          .strength(function(d) {return 0.75; })
+           	.distance(function(d) { return d3.min([d.source.degree, d.target.degree, 100]) * 2; })
+          .strength(function(d) {return 0.5; })
           )
-    .force("charge", d3.forceManyBody().strength(-10))
-		.force("collide", d3.forceCollide().radius(function(d) { return radius(d.degree / 5) + 1; }))
+    .force("charge", function(d) { return d.degree > 100 ? 20 : -75; })
+		// .force("collide", d3.forceCollide().radius(function(d) { return radius(d.degree / 10) + 1; }))
     .force("center", d3.forceCenter(width / 2, height / 2));
         
 
@@ -61,7 +73,7 @@ buildGraphChart = function(data){
     .selectAll("path")
     .data(graph.links)
     .enter().append("svg:path")
-    .attr("stroke-width", function(d) { return 1 });
+    .attr("stroke-width", function(d) { return d.source.unique_degree * 0.001 });
 
     link.style('fill', 'none')
 
@@ -110,9 +122,14 @@ buildGraphChart = function(data){
     
 
 
+    //color scale
+    var color  = d3.scaleQuantize().domain(d3.extent(graph.nodes, (d)=>d.unique_degree)).range(
+      ['#f7fcfd','#e5f5f9','#ccece6','#99d8c9','#66c2a4','#41ae76','#238b45','#006d2c','#00441b']
+    );
 
     node.append('circle')
-        .attr("r", function(d) { console.log(d);return radius(d.degree * 0.05); })
+        .attr("r", function(d) {return radius(d.degree); })
+        .style("fill", function(d) { return color(d.unique_degree); })
         .on("mouseover", function(d) {
             d3.select(this).style("stroke", "gold");
             d3.select(this).style("stroke-width", "2px");
@@ -123,8 +140,8 @@ buildGraphChart = function(data){
 
         })
         .on("mouseout", function(d) {
-            d3.select(this).style("stroke", "none");
-            d3.select(this).style("stroke-width", "0px");
+            d3.select(this).style("stroke", "black");
+            d3.select(this).style("stroke-width", "1px");
             focus.style("display", "none");
         });
         // .attr("fill", function(d) { return color(d.group); })
