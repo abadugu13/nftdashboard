@@ -1,30 +1,40 @@
 buildAnomalyChart = function(chartData) {
 
+    var volumeData = chartData.volumeData;
+    var anomalyData = chartData.anomalyData;
+    
+    console.log(anomalyData.slice(0, 10));
+    anomalyDataParse = d3.timeParse("%-m/%-d/%Y")
+    parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S");
+    var anomalyData = anomalyData.map(function(d) {
+        return {
+            date: anomalyDataParse(d.date),
+            volume: d.volume,
+        }})
+    var volumeData = volumeData.map(function(d) {
+        return {
+            date: parseDate(d.date),
+            volume: d.volume,
+        }})    
     const margin = {top: 40, right: 40, bottom: 60, left: 80},
         width = 960 * 0.75 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
-parseDate = d3.timeParse("%Y-%m-%d");
-// set anomaly based on threshold
-var threshold = 0.5;
-chartData.forEach(function(d, i) {
-    d.index = i;
-    d.anomaly_score = d.anomaly > threshold ? 1 : 0;
-    d.date = parseDate(d.date);
-})
+
+
 
 
 
 // set up the scales
 var xScale = d3.scaleTime()
-    .domain(d3.extent(chartData, function(d) {
+    .domain(d3.extent(volumeData, function(d) {
         return d.date;
     }
     ))
     .range([0, width]);
 
 var yScale = d3.scaleLinear()
-    .domain([0, d3.max(chartData, function(d) {
-        return d.anomaly;
+    .domain([0, d3.max(volumeData, function(d) {
+        return d.volume;
     }
     )])
     .range([height, 0]);
@@ -43,14 +53,14 @@ var line = d3.line()
     }
     )
     .y(function(d) {
-        return yScale(d.anomaly);
+        return yScale(d.volume);
     }
     );
 // line only defined when points before and after are not anomalous
 
-line.defined(function(d, i){
-    return !d.anomaly_score || chartData[i-1] && chartData[i-1].anomaly_score || chartData[i+1] && chartData[i+1].anomaly_score
-})
+// line.defined(function(d, i){
+//     return !d.anomaly_score || chartData[i-1] && chartData[i-1].anomaly_score || chartData[i+1] && chartData[i+1].anomaly_score
+// })
 
 // set up anomalus line
 var anomaly_line =d3.line()
@@ -59,20 +69,12 @@ var anomaly_line =d3.line()
 }
 )
 .y(function(d) {
-    return yScale(d.anomaly);
+    return yScale(d.volume);
 }
 );
-anomaly_line.defined(function(d){
-    return d.anomaly_score
-})
-// mark the anomaly points
-var anomalyMarker = d3.symbol()
-    .type(d3.symbolCircle)
-    .size(function(d) {
-        return d.anomaly * 10;
-    }
-    );
-
+// anomaly_line.defined(function(d){
+//     return d.anomaly_score
+// })
 // set up the svg
 
 
@@ -94,24 +96,53 @@ svg.append("g")
     .call(yAxis)
 
 svg.append("path")
-    .datum(chartData)
+    .datum(volumeData)
     .attr("class", "volume")
     .attr("d", line)
 
-svg.append("path")
-    .datum(chartData)
-    .attr("class", "line")
-    .attr("id", "anomaly_line")
-    .style("stroke", "#FF6961")
-    .attr("d", anomaly_line)
-    .on("mouseover",  function(d) {
-        d3.select(this)
-            .style("stroke-width", "4px")
+// svg.append("path")
+//     .datum(anomalyData)
+//     .attr("class", "line")
+//     .attr("id", "anomaly_line")
+//     .style("stroke", "#FF6961")
+//     .attr("d", anomaly_line)
+//     .on("mouseover",  function(d) {
+//         d3.select(this)
+//             .style("stroke-width", "4px")
+//     })
+//     .on("mouseout", function(d){
+//         d3.select(this)
+//             .style("stroke-width", "2px")
+//     })
+
+// draw analomous points
+svg.selectAll("circle")
+    .data(anomalyData)
+    .enter()
+    .append("circle")
+    .attr("cx", function(d) {
+        return xScale(d.date);
     })
-    .on("mouseout", function(d){
+    .attr("cy", function(d) {
+        return yScale(d.volume);
+    })
+    .style("r", 5)
+    .style("fill", "red")
+    .style("opacity", 0.5)
+    .on("mouseover", function(d) {
         d3.select(this)
+            .style("fill", "black")
+            .style("opacity", 1)
+            .style("stroke", "black")
             .style("stroke-width", "2px")
     })
+    .on("mouseout", function(d) {
+        d3.select(this)
+            .style("fill", "red")
+            .style("opacity", 0.5)
+            .style("stroke", "none")
+    })
+
 
 
 // title
