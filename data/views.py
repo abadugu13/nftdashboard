@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import numpy as np
+import json
 # Create your views here.
 
 def gen_radom_time_series(cols, start, end):
@@ -13,6 +14,10 @@ def gen_radom_time_series(cols, start, end):
 
 def get_all_data(request, value):
     print(value)
+    sentiment_data_path = f'data/sentiment_data/final_vader_output_#{value}.json'
+    with open(sentiment_data_path, 'r') as f:
+        sentiment_data = json.load(f)
+        sentiment_data = [{"date":x["dt"], "volume":x["volume"], "sentiment":x["compound_score"]} for x in sentiment_data]
     data = {
         "price_data":[
             {"date": "2019-01-01", "price": 100, "prediction": False, "volume": 100},
@@ -39,13 +44,7 @@ def get_all_data(request, value):
                 {"source": "feature2", "target": "feature5", "value": 250},
             ]
         ,
-        "sentiment_data":[
-            {"sentiment":-0.2, "date":"2019-01-01", "volume":150},
-            {"sentiment":-0.1, "date":"2019-01-02", "volume":210},
-            {"sentiment":0.19, "date":"2019-01-03", "volume":200},
-            {"sentiment":-0.9, "date":"2019-01-04", "volume":800},
-            {"sentiment":0.90, "date":"2019-01-05", "volume":300},
-        ],
+        "sentiment_data": sentiment_data,
         "word_cloud_data":[
             {"text":"word1", "frequency":100},
             {"text":"word2", "frequency":250},
