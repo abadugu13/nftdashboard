@@ -24,10 +24,10 @@ buildAnomalyChart = function(chartData) {
 
     // Filter data to only show from 2020
     var anomalyData = anomalyData.filter(function(d) {
-        return d.date > new Date("2020-01-01");
+        return d.date > new Date("2020-01-01") && d.date < new Date("2021-02-01");
     });
     var volumeData = volumeData.filter(function(d) {           
-        return d.date > new Date("2020-01-01");
+        return d.date > new Date("2020-01-01") && d.date < new Date("2021-02-01");
     });
 
 
