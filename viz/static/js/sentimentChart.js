@@ -40,6 +40,8 @@ buildGraphChart = function(data){
     
     // draw svg
     var svg = d3.select("#components").append("svg")
+        .style("border", "3px solid rgba(30, 28, 28, 0.516)")
+
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

@@ -6,6 +6,8 @@
         height = 500 - margin.top - margin.bottom;
     console.log(data);
     var g = d3.select("#components").append("svg")
+        .style("border", "3px solid rgba(30, 28, 28, 0.516)")
+        .style("border-top", "none")     
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")

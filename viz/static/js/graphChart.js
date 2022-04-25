@@ -5,6 +5,8 @@ buildSentimentChart = function(data) {
         height = 500 - margin.top - margin.bottom;
     
     var svg = d3.select("#components").append("svg")
+        .style("border", "3px solid rgba(30, 28, 28, 0.516)")
+        .style("border-bottom", "none")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -28,7 +30,7 @@ buildSentimentChart = function(data) {
     // line chart with date on x axis and sentiment on y axis with radial gradient
 
     var x = d3.scaleTime()
-        .range([0, width]);
+        .range([0, width-70]);
     var y = d3.scaleLinear()
         .range([height/2, 0]);
     var line = d3.line()

@@ -5,6 +5,8 @@ buildVolumeChart = function(data){
         height = 500 - margin.top - margin.bottom;
 
     var svg = d3.select("#components").append("svg")
+        .style("border", "3px solid rgba(30, 28, 28, 0.516)")
+        .style("border-right", "none")     
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
@@ -96,7 +98,7 @@ buildVolumeChart = function(data){
                 .attr("y", y(d.volume))
                 .attr("dy", -5)
                 .attr("text-anchor", "middle")
-                .text(formatValue(d.volume));
+                .text(formatValue(Math.round(d.volume, 0)));
 
         })
         .on("mouseout", function(d) {
