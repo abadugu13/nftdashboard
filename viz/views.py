@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 def index(request):
     context = {
-        'title': 'NFT Dashboard',
+        'title': 'NFT Collections - Visualization of trends',
         "collections":[
             {"name":"Alien Worlds", "id": "alien.worlds"},
             {"name":"Axie NFT", "id": "axie"},

@@ -121,7 +121,7 @@ buildVolumeChart = function(data){
         .attr("transform", "rotate(-90)translate(" + (-height/2) + "," + (-margin.right - 15) + ")")
         .attr("dy", "1em")
         .style("text-anchor", "middle")
-        .text("Volume");
+        .text("Daily trades");
     
     // add x axis label
     svg.append("text")

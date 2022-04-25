@@ -188,7 +188,7 @@ buildSentimentChart = function(data) {
         .attr("x", -0.75 * height)
         .attr("dy", "1em")
         .attr("transform", "rotate(-90)")
-        .text("Volume");
+        .text("No. of tweets");
     
     
     var focus = svg.append("g")
