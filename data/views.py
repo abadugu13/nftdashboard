@@ -31,8 +31,15 @@ def get_all_data(request, value):
         sentiment_data = json.load(f)
         sentiment_data = [{"date":x["dt"].split()[0], "volume":x["volume"], "sentiment":x["compound_score"]} for x in sentiment_data]
     
+
+    df_time_series[df_time_series['volume']<0]['volume'] = 0
+    
+    df_time_series.loc[df_time_series['Collection'] == 'alien.worlds','Collection'] = 'alienworlds'
+
     time_series = df_time_series[df_time_series["Collection"] == value]
     time_series_data = [{"date":x["Datetime_updated"], "volume":x["volume"], "price":0, "prediction":x["prediction_flag"]} for x in time_series.to_dict(orient='records')]
+    print(time_series.head())
+
 
     if value == 'cryptokitties':
         graph_df = pd.read_csv("data/graph_data/Cryptokittiesgraph_network.csv")

@@ -6,7 +6,7 @@ def index(request):
     context = {
         'title': 'NFT Collections - Visualization of trends',
         "collections":[
-            {"name":"Alien Worlds", "id": "alien.worlds"},
+            {"name":"Alien Worlds", "id": "alienworlds"},
             {"name":"Axie NFT", "id": "axie"},
             {"name": "CryptoKitties", "id": "cryptokitties"},
             {"name": "CryptoPunks", "id": "cryptopunks"},
