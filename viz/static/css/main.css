@@ -65,3 +65,8 @@ circle {
     stroke: black;
     stroke-width: 1px;
 }
+
+
+svg.component {
+    border: 10px solid rgba(30, 28, 28, 0.516);
+}
