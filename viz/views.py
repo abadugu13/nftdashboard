@@ -14,7 +14,7 @@ def index(request):
             {"name":"Decentraland", "id": "decentraland"},
             {"name":"Hashmasks", "id": "hashmasks"},
             {"name":"Rarible", "id": "rarible"},
-            {"name":"Sorare", "id": "sorare"}
+            # {"name":"Sorare", "id": "sorare"}
             # {"name": "CyberKongz", "id": "cyberkongz"},
             # {"name": "Azuki", "id": "azuki"},
 

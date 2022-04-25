@@ -44,6 +44,8 @@ def get_all_data(request, value):
         graph_df = pd.read_csv("data/graph_data/Cryptovoxelsgraph_network.csv")
     elif value == 'cryptopunks':
         graph_df = pd.read_csv("data/graph_data/Cryptopunksgraph_network.csv")
+    else:
+        graph_df = pd.read_csv("data/graph_data/Cryptopunksgraph_network.csv")
 
     
     # centralities = centrality_measures(graph_df)
