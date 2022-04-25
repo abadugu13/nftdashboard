@@ -15,11 +15,9 @@ Built using Django
 ## APIs
 Building only simple GET requests
 Sample Code For API is written in `data/views.py` with its url code mentioned in `data/urls.py`.
-## Data Ingestion
-??
 # Installation & Execution
 ```
-conda create env -n nft_project python=3.8
+conda create -n nft_project python=3.8
 conda activate nft_project
 pip install -r requirements.txt
 python manage.py runserver
