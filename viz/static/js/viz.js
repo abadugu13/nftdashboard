@@ -22,8 +22,8 @@ getNftCollection = function() {
             // buildFeatureChart(data.feature_data);
             buildSentimentChart(data.sentiment_data);
             buildAnomalyChart(data.anomaly_data);
-            buildGraphChart(data.graph_data);
             buildWordCloud(data.word_cloud_data);
+            buildGraphChart(data.graph_data);
         } else {
             // We reached our target server, but it returned an error
             console.log('error');

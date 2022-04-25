@@ -15,7 +15,7 @@
         .attr("x", (width / 2))
         .attr("y", 15 - (margin.top / 2))
         .attr("class", "componentTitle")
-        .text("Word Cloud");
+        .text("Twitter sentiment - Word cloud");
     // var color = d3.scaleOrdinal(d3.schemeCategory20);
     // d3 sqrt scale for word
     var wordScale = d3.scaleSqrt()

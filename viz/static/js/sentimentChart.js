@@ -50,7 +50,7 @@ buildGraphChart = function(data){
         .attr("x", (width / 2))
         .attr("y", 15 - (margin.top / 2))
         .attr("class", "componentTitle")
-        .text("Buyer-Seller Network");
+        .text("NFT Transactions network graph");
     // draw network
     
     var radius = d3.scaleSqrt()

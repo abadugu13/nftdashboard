@@ -112,7 +112,7 @@ buildVolumeChart = function(data){
         .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 2))
         .attr("class", "componentTitle")
-        .text("Volume Chart");
+        .text("Trade volume forecast");
 
     // add y axis label
     svg.append("text")

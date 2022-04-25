@@ -161,7 +161,7 @@ svg.append("text")
         .attr("x", (width / 2))
         .attr("y", 20 - (margin.top / 2))
         .attr("class", "componentTitle")
-        .text("Anomaly Chart");
+        .text("Trade volume - Anomaly chart");
 
 // svg.select(".x.axis").selectAll(".tick").selectAll("text").attr("fill", "#fff");
 //     svg.select(".x.axis").selectAll(".tick").selectAll("line").attr("stroke", "#fff");

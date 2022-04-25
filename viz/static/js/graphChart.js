@@ -64,7 +64,7 @@ buildSentimentChart = function(data) {
         .attr("x", (width / 2))
         .attr("y", 0 - (margin.top / 2))
         .attr("class", "componentTitle")
-        .text("Sentiment");
+        .text("Twitter sentiment over time");
     
     // add y axis label
     svg.append("text")
